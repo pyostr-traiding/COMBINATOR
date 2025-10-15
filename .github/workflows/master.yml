@@ -50,7 +50,7 @@ jobs:
             
             script: |
             # Попытка клонирования репозитория
-            if ! sudo git clone https://username:${{ secrets.ACCESS_TOKEN }}@github.com/pyostr-traiding/streaming-candle.git .; then
+            if ! sudo git clone https://username:${{ secrets.ACCESS_TOKEN }}@github.com/pyostr-traiding/COMBINATOR.git .; then
               echo "Ошибка при клонировании репозитория"
               exit 1
             fi
