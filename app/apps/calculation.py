@@ -4,14 +4,10 @@ import time
 from datetime import datetime, timezone
 from uuid import uuid4
 
-import telebot
-from telebot import types
-
 from app.API.intervals import get_intervals
 from app.API.positions import create_position
 from app.GLOBAL import TRADE_STATUS_MANAGER
 from app.TARGETS import TargetsIndicator
-from app.mail import send_to_rabbitmq
 from conf.settings import settings
 
 intervals: dict[int, bool] = get_intervals()
@@ -141,15 +137,14 @@ def calculation_position():
     symbol = 'BTCUSDT'
     uuid = str(uuid4())
 
-    # result_create = create_position(
-    #     symbol=symbol,
-    #     side=side,
-    #     uuid=uuid,
-    #     qty='0.001',
-    #     price=str(target_rate),
-    #     kline_ms=str(RSI[1].kline_ms)
-    # )
-    #
+    create_position(
+        symbol=symbol,
+        side=side,
+        uuid=uuid,
+        price=str(target_rate),
+        kline_ms=str(RSI[1].kline_ms)
+    )
+
     text = (
         '--------------\n'
         f'ID: {uuid}\n\n'
