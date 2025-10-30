@@ -21,12 +21,13 @@ def create_position(
     base_url = os.getenv('BASE_API_URL')
     url = f'{base_url}/position/create'
     params = {
-      "symbol_name": symbol,
-      "uuid": uuid,
-      "side": side,
-      "price": price,
-      "kline_ms": kline_ms,
-      "is_test": is_test
+        "category": 'option',
+        "is_test": is_test,
+        "kline_ms": int(kline_ms),
+        "price": price,
+        "side": side,
+        "symbol_name": symbol,
+        "uuid": uuid,
     }
     res = requests.post(
         url=url,
@@ -34,16 +35,20 @@ def create_position(
         headers={'Content-Type': 'application/json'},
         json=params
     )
-    print(res)
+    try:
+        print(res)
+        print(res.json())
+    except:
+        pass
     if res.status_code in [200, 409]:
         return True
     return False
-
-
-create_position(
-    symbol='BTCUSDT',
-    uuid='3920jfs',
-    side='sell',
-    price='112022',
-    kline_ms='23124231',
-)
+#
+#
+# create_position(
+#     symbol='BTCUSDT',
+#     uuid='3920jfs',
+#     side='sell',
+#     price='112022',
+#     kline_ms='23124231',
+# )

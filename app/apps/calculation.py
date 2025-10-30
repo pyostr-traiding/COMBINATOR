@@ -94,12 +94,12 @@ def calculation_position():
         key = int(key)
         if value and key not in RSI:
             if settings.DEBUG_PRINT:
-                print(f'В RSI нет ключа {key} {value}')
+                print(f'В RSI нет ключа {key} {value} {RSI}')
             return
 
         if value and key not in STOCH_RSI:
             if settings.DEBUG_PRINT:
-                print(f'В STOCH_RSI нет ключа {key} {value}')
+                print(f'В STOCH_RSI нет ключа {key} {value} {STOCH_RSI}')
             return
 
     """
