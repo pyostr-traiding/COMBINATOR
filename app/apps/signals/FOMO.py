@@ -18,5 +18,4 @@ def update_fomo(data: FOMOSchema):
         create_dt=datetime.datetime.now(datetime.UTC),
         interval=data.interval,
         kline_ms=data.timestamp,
-
     )

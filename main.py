@@ -1,7 +1,7 @@
 import time
 
 from app.callbacks.signals_callback import callback_signals
-from conf.conf_redis import redis_signals, redis_settings, redis_klines
+from conf.conf_redis import redis_signals
 from conf.settings import settings
 
 print(f'Запуск комбинатора для {settings.SYMBOL}')

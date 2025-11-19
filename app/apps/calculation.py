@@ -10,7 +10,6 @@ from app.GLOBAL import TRADE_STATUS_MANAGER
 from app.TARGETS import TargetsIndicator
 from conf.settings import settings
 
-intervals: dict[int, bool] = get_intervals()
 last_update: float = 0
 UPDATE_INTERVAL = 30  # секунд
 
@@ -50,7 +49,7 @@ def check_candles_timestamps(candle_data):
 
 
 def calculation_position():
-    global intervals, last_update
+    global last_update
     """
     Получаем с панели включенные интервалы
 
@@ -67,6 +66,7 @@ def calculation_position():
       MACD - направление тренда совпадает с side RSI
       FOMO - находимся близко к границам
     """
+    intervals: dict[int, bool] = get_intervals()
 
     # Обновляем раз в UPDATE_INTERVAL секунд данные по интервалам
     if not intervals:
