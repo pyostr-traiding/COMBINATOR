@@ -46,8 +46,3 @@ jobs:
             # Запускаем сборку / docker
             docker compose up --build -d
 
-            # Удаляем временные переменные
-            unset INFISICAL_TOKEN
-            unset INFISICAL_HOST
-            unset ENVIRONMENT_SLUG
-
