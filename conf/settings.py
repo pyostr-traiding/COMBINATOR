@@ -15,6 +15,9 @@ client = InfisicalSDKClient(
     cache_ttl=300
 )
 
+print(os.getenv('INFISICAL_HOST'))
+print(os.getenv('INFISICAL_TOKEN'))
+
 def load_project_secrets(project_slug: str):
     resp = client.secrets.list_secrets(
         project_slug=project_slug,
