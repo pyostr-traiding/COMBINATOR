@@ -29,11 +29,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            # Временные переменные окружения для деплоя
-            export INFISICAL_TOKEN="${{ secrets.INFISICAL_TOKEN }}"
-            export INFISICAL_HOST="${{ secrets.INFISICAL_HOST }}"
-            export ENVIRONMENT_SLUG="${{ secrets.ENVIRONMENT_SLUG }}"
-
             # Клонируем / обновляем проект
             if [ ! -d "apps/COMBINATOR" ]; then
                 mkdir -p apps/COMBINATOR
@@ -42,6 +37,12 @@ jobs:
             git reset --hard
             git clean -fd
             git pull || git clone https://username:${{ secrets.ACCESS_TOKEN }}@github.com/pyostr-traiding/COMBINATOR.git .
+
+            echo "===== Создание файла .env ====="
+            echo "INFISICAL_HOST=${{ secrets.INFISICAL_HOST }}" | sudo tee .env
+            echo "INFISICAL_TOKEN=${{ secrets.INFISICAL_TOKEN }}" | sudo tee -a .env
+            echo "ENVIRONMENT_SLUG=${{ secrets.ENVIRONMENT_SLUG }}" | sudo tee -a .env
+
 
             # Запускаем сборку / docker
             docker compose up --build -d
