@@ -6,7 +6,6 @@ services:
     container_name: combinator
     build: ./
     restart: always
-    env_file: ./.env
     command: ["poetry", "run", "python", "main.py"]
     deploy:
       resources:
