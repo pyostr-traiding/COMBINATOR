@@ -32,7 +32,7 @@ jobs:
             # Временные переменные окружения для деплоя
             export INFISICAL_TOKEN="${{ secrets.INFISICAL_TOKEN }}"
             export INFISICAL_HOST="${{ secrets.INFISICAL_HOST }}"
-            export INFISICAL_HOST="${{ secrets.ENVIRONMENT_SLUG }}"
+            export ENVIRONMENT_SLUG="${{ secrets.ENVIRONMENT_SLUG }}"
 
             # Клонируем / обновляем проект
             if [ ! -d "apps/COMBINATOR" ]; then
@@ -49,4 +49,5 @@ jobs:
             # Удаляем временные переменные
             unset INFISICAL_TOKEN
             unset INFISICAL_HOST
+            unset ENVIRONMENT_SLUG
 
