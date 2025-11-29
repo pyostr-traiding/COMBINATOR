@@ -15,6 +15,10 @@ services:
           cpus: '0.15'
     networks:
       - GLOBAL_NETWORK
+    environment:
+      INFISICAL_HOST: ${INFISICAL_HOST}
+      INFISICAL_TOKEN: ${INFISICAL_TOKEN}
+      ENVIRONMENT_SLUG: ${ENVIRONMENT_SLUG}
 
 volumes:
   redis-data:
