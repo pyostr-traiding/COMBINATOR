@@ -1,11 +1,7 @@
-import os
-
-import aiohttp
 import requests
-from dotenv import load_dotenv
 
+from conf.settings import settings
 
-load_dotenv()
 
 def create_position(
     symbol: str,
@@ -18,7 +14,7 @@ def create_position(
     """
 
     """
-    base_url = os.getenv('BASE_API_URL')
+    base_url = settings.BASE_API_URL
     url = f'{base_url}/position/create'
     params = {
         "category": 'option',

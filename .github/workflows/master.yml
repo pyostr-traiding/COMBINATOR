@@ -11,10 +11,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-
-      #----------------------------------------------
-      # Определяем хосты
-      #----------------------------------------------
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -24,11 +20,7 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -p ${{ secrets.SSH_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-      #----------------------------------------------
-      # Подключение к серверу и пересборка проекта
-      #----------------------------------------------
-      - name: Connect to server> .env
-
+      - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -37,32 +29,24 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            # Проверяем, существует ли папка apps
-            if [ ! -d "apps" ]; then
-                sudo mkdir apps
+            # Временные переменные окружения для деплоя
+            export INFISICAL_TOKEN="${{ secrets.INFISICAL_TOKEN }}"
+            export INFISICAL_HOST="${{ secrets.INFISICAL_HOST }}"
+            export INFISICAL_HOST="${{ secrets.ENVIRONMENT_SLUG }}"
+
+            # Клонируем / обновляем проект
+            if [ ! -d "apps/COMBINATOR" ]; then
+                mkdir -p apps/COMBINATOR
             fi
-            # Проверяем, существует ли папка
-            if [ -d "apps/COMBINATOR" ]; then
-                sudo rm -rf apps/COMBINATOR
-            fi
-            sudo mkdir apps/COMBINATOR
             cd apps/COMBINATOR
-            
-            script: |
-            # Попытка клонирования репозитория
-            if ! sudo git clone https://username:${{ secrets.ACCESS_TOKEN }}@github.com/pyostr-traiding/COMBINATOR.git .; then
-              echo "Ошибка при клонировании репозитория"
-              exit 1
-            fi
-      
-            # Установка .env файла
-            if ! echo "${{ secrets.ENV_FILE }}" > .env; then
-              echo "Ошибка при установке .env файла"
-              exit 1
-            fi
-      
-            # Попытка запуска docker-compose
-            if ! docker compose up --build -d; then
-              echo "Ошибка при запуске docker-compose"
-              exit 1
-            fi
+            git reset --hard
+            git clean -fd
+            git pull || git clone https://username:${{ secrets.ACCESS_TOKEN }}@github.com/pyostr-traiding/COMBINATOR.git .
+
+            # Запускаем сборку / docker
+            docker compose up --build -d
+
+            # Удаляем временные переменные
+            unset INFISICAL_TOKEN
+            unset INFISICAL_HOST
+

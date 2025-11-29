@@ -1,21 +1,19 @@
 import json
-import os
+import pika
+
 from datetime import datetime
 
-import pika
-from dotenv import load_dotenv
-
-load_dotenv()
+from conf.settings import settings
 
 credentials = pika.PlainCredentials(
-    username=os.getenv('RABBITMQ_USERNAME'),
-    password=os.getenv('RABBITMQ_PASSWORD')
+    username=settings.RABBITMQ_USERNAME,
+    password=settings.RABBITMQ_PASSWORD,
 )
 
 connection_params = pika.ConnectionParameters(
-    host=os.getenv('RABBITMQ_HOST'),
-    port=os.getenv('RABBITMQ_PORT'),
-    virtual_host=os.getenv('RABBITMQ_VIRTUAL_HOST'),
+    host=settings.REDIS_HOST,
+    port=settings.REDIS_PORT,
+    virtual_host=settings.RABBITMQ_VIRTUAL_HOST,
     credentials=credentials
 )
 

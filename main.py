@@ -4,6 +4,7 @@ from app.callbacks.signals_callback import callback_signals
 from conf.conf_redis import redis_signals
 from conf.settings import settings
 
+
 print(f'Запуск комбинатора для {settings.SYMBOL}')
 
 
@@ -14,7 +15,6 @@ pubsub_signals.subscribe(f'signals:{settings.SYMBOL}')
 
 
 if __name__ == "__main__":
-
     try:
         while True:
             message_signals = pubsub_signals.get_message()
